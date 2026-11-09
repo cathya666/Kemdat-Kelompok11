@@ -1,0 +1,555 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: AAA + UU PDP Grading
+meta:
+  id: wrk_e7e71609672e47739e69371b101ef72b
+  created: 1793584904507
+  modified: 1793584904507
+  description: ""
+collection:
+  - url: "{{ _.base_url }}/register"
+    name: "[D] Register New User (General Test)"
+    meta:
+      id: req_b55a80d9fac146628d4eced4b2cdfe38
+      created: 1793584904508
+      modified: 1793588975400
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904508
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"new_test_user","password":"password123","role":"student"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/login"
+    name: "[D] Login Judge (Copy token to env)"
+    meta:
+      id: req_165552c3c366410292be984bb8575ab6
+      created: 1793584904509
+      modified: 1793588988247
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904509
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"judge_prof_x","password":"password123"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/login"
+    name: "[D] Login Student (Copy token to env)"
+    meta:
+      id: req_fbbcdd04b57049b69173c0451cdc4ce5
+      created: 1793584904509
+      modified: 1793593964552
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904509
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"student_andi","password":"password123"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/projects/1/grade"
+    name: "[D] Judge grades project (Expect 201)"
+    meta:
+      id: req_697ca5a939eb48fb8aa497ab6204d90a
+      created: 1793584904510
+      modified: 1793594844971
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904510
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"score":90, "feedback":"Excellent"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: Bearer {{ _.judge_token }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/projects/2/grade"
+    name: "[D] Student tries to grade (Expect 403)"
+    meta:
+      id: req_ecbf86e0ffbc42a5a4a18f361a9349fe
+      created: 1793584904510
+      modified: 1793594834190
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904510
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"score":90, "feedback":"test"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: Bearer {{ _.student_token }}
+    authentication:
+      type: none
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/projects/2/grades"
+    name: "[D] Student views OTHER'S grades (Expect 403)"
+    meta:
+      id: req_7f68d6434d97470a9479ff14d0e36ac0
+      created: 1793584904511
+      modified: 1793589075156
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904511
+    method: GET
+    headers:
+      - name: Authorization
+        value: Bearer {{ _.student_token }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/projects/1/grades"
+    name: "[D] Student views OWN grades (Expect 200)"
+    meta:
+      id: req_d3e6d581edd74101818fcd67a4b6962d
+      created: 1793584904511
+      modified: 1793589063544
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904511
+    method: GET
+    headers:
+      - name: Authorization
+        value: Bearer {{ _.student_token }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/users/me/data"
+    name: "[D] Get My Data (Expect 200)"
+    meta:
+      id: req_10c4e45dfba540589067f160d6661fee
+      created: 1793584904512
+      modified: 1793586572932
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904512
+    method: GET
+    headers:
+      - name: Authorization
+        value: Bearer {{ _.student_token }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/users/me/audit-log"
+    name: "[D] Get My Audit Log (Expect 200)"
+    meta:
+      id: req_ba94087a495445bf8bc91557e89d56f7
+      created: 1793584904512
+      modified: 1793590246843
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904512
+    method: GET
+    headers:
+      - name: Authorization
+        value: Bearer {{ _.judge_token }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/users/me/export"
+    name: "[D] Export My Data (Expect 200)"
+    meta:
+      id: req_7130e7fab9a548c1b8fe6f880afda8e0
+      created: 1793584904513
+      modified: 1793590606186
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904513
+    method: GET
+    headers:
+      - name: Authorization
+        value: Bearer {{ _.judge_token }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/users/me/data"
+    name: "[D] Unauthenticated access (Expect 401)"
+    meta:
+      id: req_ba8ea99056f14b06bc4dbb1f31cf7e3d
+      created: 1793584904513
+      modified: 1793586663496
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904513
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/register"
+    name: "[D] Register temp user for deletion test (Expect 201)"
+    meta:
+      id: req_98043f89e72347ddad487f4fc6e2e0f7
+      created: 1793584904514
+      modified: 1793594916770
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904514
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"test_delete_user","password":"password123","role":"student"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/login"
+    name: "[D] Login temp user for deletion test (Copy token to env) (Expect 200)"
+    meta:
+      id: req_d83fa5c21bab4101aaf61e9a06df953f
+      created: 1793584904514
+      modified: 1793594927119
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904514
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"test_delete_user","password":"password123"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/users/me"
+    name: "[D] Delete Account (Expect 200)"
+    meta:
+      id: req_256d0860f6504d4ca297fc509efe4e03
+      created: 1793584904515
+      modified: 1793592468230
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904515
+    method: DELETE
+    headers:
+      - name: Authorization
+        value: Bearer {{ _.delete_token }}
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/login"
+    name: "[D] Verify deletion - login fails (Expect 401)"
+    meta:
+      id: req_d447037c2d1142cfa7f3ce4bd9ffd674
+      created: 1793584904517
+      modified: 1793586799027
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904517
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"test_delete_user","password":"password123"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/projects"
+    name: "[D] Student Get All Projects (Expect 200)"
+    meta:
+      id: req_b6cafe71a9fb44ac966290ac2fea4a73
+      created: 1793588750764
+      modified: 1793594855210
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904510.5
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+      - name: Authorization
+        value: Bearer {{ _.student_token }}
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/projects/grade"
+    name: "[D] Get All Projects + Grade (Judges/Admin Only) (Expect 200)"
+    meta:
+      id: req_c13c029d55e54432bc8d5aca8b4df751
+      created: 1793590033260
+      modified: 1793594988270
+      isPrivate: false
+      description: ""
+      sortKey: -1793590033260
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+      - name: Authorization
+        value: Bearer {{ _.judge_token }}
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/users/me/data"
+    name: "[D] Update user (Expect 200)"
+    meta:
+      id: req_d82cd03202fe40a891b8846f3dafd32d
+      created: 1793593487175
+      modified: 1793595005787
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904513.875
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username":"ahmed_999"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.4.0
+        description: ""
+        disabled: false
+      - name: Authorization
+        value: Bearer {{ _.update_token }}
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/register"
+    name: "[D] Register temp user for update test (Expect 201)"
+    meta:
+      id: req_ae546cb5d8374e559f5ee595c845db66
+      created: 1793594247926
+      modified: 1793594867656
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904513.5
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"test_update_user","password":"password123","role":"student"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/login"
+    name: "[D] Login temp update user (Copy token to env) (Expect 200)"
+    meta:
+      id: req_0d037837f61947d08e565001955242d9
+      created: 1793594266445
+      modified: 1793594895137
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904513.75
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"test_update_user","password":"password123"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/login"
+    name: "[D] Login temp with old user credential (Copy token to env) (Expect  401)"
+    meta:
+      id: req_fbc2088a4fcf43e7bba6767f757f1e7e
+      created: 1793594441138
+      modified: 1793594514221
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904513.9375
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"test_update_user","password":"password123"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/login"
+    name: "[D] Login temp with new user credential (Copy token to env) (Expect  200)"
+    meta:
+      id: req_ec14b095b2264ceb977bd56a22ea03bb
+      created: 1793594526662
+      modified: 1793594536538
+      isPrivate: false
+      description: ""
+      sortKey: -1793584904513.9688
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username":"ahmed_999","password":"password123"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_d034dc85b2f86908261a0ad608d2c7a4f8eebab2
+    created: 1793584904644
+    modified: 1793584904644
+environments:
+  name: Base Environment
+  meta:
+    id: env_cccf75f2957544008e2eca83d285bbc3
+    created: 1793584904507
+    modified: 1793595023990
+    isPrivate: false
+  data:
+    base_url: http://localhost:8080/api/v1
+    student_token: " "
+    judge_token: ""
+    delete_token: ""
+    update_token: ""
