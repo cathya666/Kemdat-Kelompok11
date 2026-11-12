@@ -140,7 +140,7 @@ func CreateGrade(ctx context.Context, projectID int, judgeId int, score int, fee
 
 func GetGradesForProject(ctx context.Context, projectID int) ([]lmodel.Grade, error) {
 	var grades []lmodel.Grade
-	var query string = `SELECT id, project_id, judge_id, score, feedback from grades where id = $1`
+	var query string = `SELECT id, project_id, judge_id, score, feedback from grades where project_id = $1`
 	rows, err := Pool.Query(ctx, query, projectID)
 	if err != nil {
 		return nil, err
